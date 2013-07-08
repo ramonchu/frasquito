@@ -1,0 +1,6 @@
+<ehcache xsi:noNamespaceSchemaLocation="ehcache.xsd"
+	updateCheck="true" monitoring="autodetect" dynamicConfig="true">
+
+	<cache name="sampleCache1" maxElementsInMemory="10000" eternal="false"
+		overflowToDisk="false" timeToIdleSeconds="300" timeToLiveSeconds="600" />
+</ehcache>
