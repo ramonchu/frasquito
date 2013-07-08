@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import com.rarnau.fastquickproto.converter.StringIdEditor;
 
 public abstract class WebController {
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.setAutoGrowNestedPaths(true);

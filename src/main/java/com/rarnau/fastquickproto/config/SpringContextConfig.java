@@ -10,10 +10,12 @@ import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.interceptor.DefaultKeyGenerator;
 import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -29,10 +31,11 @@ import com.rarnau.fastquickproto.social.MongoUserDetailsService;
 
 /**
  * @author Ramón Arnau Gómez, 2013
- *
+ * 
  */
 @Configuration
-// @EnableMongoRepositories(basePackages = { "com.rarnau.fastquickproto.repository" })
+// @EnableMongoRepositories(basePackages = {
+// "com.rarnau.fastquickproto.repository" })
 @ComponentScan({ "com.rarnau.fastquickproto.service", "com.rarnau.fastquickproto.repository.impl" })
 @ImportResource(value = { "classpath:net/bull/javamelody/monitoring-spring.xml", "/WEB-INF/security-context.xml" })
 public class SpringContextConfig implements CachingConfigurer {
@@ -91,4 +94,14 @@ public class SpringContextConfig implements CachingConfigurer {
 	public UserDetailsService userDetailsService() throws Exception {
 		return new MongoUserDetailsService(mongoTemplate());
 	}
+
+	@Bean(name = "messageSource")
+	MessageSource messageSource() {
+		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+		source.setBasename("messages");
+		source.setDefaultEncoding("utf-8");
+		source.setCacheSeconds(5);
+		return source;
+	}
+
 }

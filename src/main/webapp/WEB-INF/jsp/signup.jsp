@@ -31,28 +31,66 @@
 			<div class="span7">
 				<h2>Register</h2>
 
-				<form class="form-horizontal" action="<c:url value="/signup"/>" method="post">
+				<form:form modelAttribute="signupForm" cssClass="form-horizontal" method="post">
+								
 					<div class="control-group">
-						<label class="control-label" for="inputEmail">Email</label>
+						<label class="control-label" for="firstName">first name</label>
 						<div class="controls">
-							<input type="text" name="j_username" id="inputEmail" placeholder="Email">
+							<form:input path="firstName" placeholder="John"/>
+							<form:errors path="firstName" cssClass="red" />
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="inputPassword">Password</label>
+						<label class="control-label" for="lastName">last name</label>
 						<div class="controls">
-							<input type="password" name="j_password" id="inputPassword" placeholder="Password">
+							<form:input path="lastName" placeholder="Smith"/>
+							<form:errors path="lastName" cssClass="red" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">username</label>
+						<div class="controls">
+							<form:input path="username" placeholder="jsmith"/>
+							<form:errors path="username" cssClass="red" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">email</label>
+						<div class="controls">
+							<form:input path="email" placeholder="jsmith@mail.com"/>
+							<form:errors path="email" cssClass="red" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">email 2</label>
+						<div class="controls">
+							<form:input path="email2" placeholder="jsmith@mail.com"/>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">password</label>
+						<div class="controls">
+							<form:password path="password" placeholder="*****"/>
+							<form:errors path="password" cssClass="red" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputPassword">password 2</label>
+						<div class="controls">
+							<form:password path="password2" placeholder="*****"/>
 						</div>
 					</div>
 					<div class="control-group">
 						<div class="controls">
+							<%--
 							<label class="checkbox"> <input type="checkbox">
 								Remember me
 							</label>
+							 --%>
 							<button type="submit" class="btn btn-primary">Register</button>
 						</div>
 					</div>
-				</form>
+				</form:form>
 
 			</div>
 		</div>
