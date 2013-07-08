@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rarnau.fastquickproto.model.Persona;
-import com.rarnau.fastquickproto.service.PersonaService;
+import com.rarnau.fastquickproto.service.app.PersonaService;
 import com.rarnau.fastquickproto.test.config.AbstractTest;
 
 public class TestCase00 extends AbstractTest {

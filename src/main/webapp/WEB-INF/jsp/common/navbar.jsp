@@ -34,7 +34,7 @@
 						placeholder="Email"> <input class="span2" type="password"
 						name="j_password" placeholder="Password">
 					<button type="submit" class="btn">Sign in</button>
-					<button type="submit" class="btn btn-success">Register</button>
+					<a href="<c:url value="/signup"/>" class="btn btn-success">Register</a>
 				</form>
 				<% }else{ %>
  				<a href="<c:url value="/logout"/>"><%= request.getUserPrincipal().getName() %></a>
@@ -43,4 +43,8 @@
 			<!--/.nav-collapse -->
 		</div>
 	</div>
+</div>
+
+<div style="margin-top: 30px;">
+	&nbsp;<!-- empty div for push down body content -->
 </div>

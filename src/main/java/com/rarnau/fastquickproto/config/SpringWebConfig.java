@@ -31,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
-import com.rarnau.fastquickproto.service.PersonaService;
+import com.rarnau.fastquickproto.service.UsuarioService;
 import com.rarnau.fastquickproto.social.ConnectionService;
 import com.rarnau.fastquickproto.social.MongoConnectionConverter;
 import com.rarnau.fastquickproto.social.MongoConnectionService;
@@ -144,12 +144,12 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public MongoSignInAdapter mongoSignInAdapter(PersonaService personaService) {
+	public MongoSignInAdapter mongoSignInAdapter(UsuarioService personaService) {
 		return new MongoSignInAdapter(personaService);
 	}
 
 	@Bean
-	public ProviderSignInController providerSignInController(PersonaService personaService) {
+	public ProviderSignInController providerSignInController(UsuarioService personaService) {
 		ProviderSignInController controller = new ProviderSignInController(connectionFactoryLocator(),
 				usersConnectionRepository(), mongoSignInAdapter(personaService));
 		return controller;

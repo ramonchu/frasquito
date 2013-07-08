@@ -15,7 +15,7 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import com.rarnau.fastquickproto.model.Usuario;
-import com.rarnau.fastquickproto.service.PersonaService;
+import com.rarnau.fastquickproto.service.UsuarioService;
 
 /**
  * @author Ramón Arnau Gómez, 2013
@@ -23,9 +23,9 @@ import com.rarnau.fastquickproto.service.PersonaService;
  */
 public class MongoSignInAdapter implements SignInAdapter {
 
-	private final PersonaService personaService;
+	private final UsuarioService personaService;
 
-	public MongoSignInAdapter(PersonaService personaService) {
+	public MongoSignInAdapter(UsuarioService personaService) {
 		this.personaService = personaService;
 	}
 

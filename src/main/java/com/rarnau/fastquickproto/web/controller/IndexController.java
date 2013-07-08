@@ -20,34 +20,22 @@ import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
-import com.rarnau.fastquickproto.converter.StringIdEditor;
-import com.rarnau.fastquickproto.model.Persona;
 import com.rarnau.fastquickproto.model.Usuario;
-import com.rarnau.fastquickproto.service.PersonaService;
+import com.rarnau.fastquickproto.service.UsuarioService;
 
 /**
  * @author Ramón Arnau Gómez, 2013
- *
+ * 
  */
 @Controller
-public class IndexController {
+public class IndexController extends WebController {
 
 	@Autowired
-	private PersonaService personaService;
-
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.setAutoGrowNestedPaths(true);
-		binder.registerCustomEditor(String.class, "id", new StringIdEditor());
-
-	}
+	private UsuarioService personaService;
 
 	@RequestMapping
 	public String index(Model model) {
@@ -65,13 +53,6 @@ public class IndexController {
 		return "login";
 	}
 
-	@RequestMapping("/listPersonas")
-	public String listPersonas(Model model) {
-		model.addAttribute("personas", personaService.getPersonas());
-		model.addAttribute("persona", new Persona());
-		return "personas";
-	}
-
 	@RequestMapping("/checkAdminUser")
 	public String checkAdminUser(Model model) {
 		if (personaService.getNumUsuarios() == 0) {
@@ -83,17 +64,6 @@ public class IndexController {
 			personaService.saveUsuario(usuario);
 		}
 		return "redirect:/";
-	}
-
-	@RequestMapping("/addPersona")
-	public String addPersona(@Validated Persona persona, BindingResult bindingResult, Model model) {
-		model.addAttribute("persona", persona);
-		if (!bindingResult.hasErrors()) {
-			personaService.savePersona(persona);
-			return "redirect:/listPersonas";
-		} else {
-			return "personas";
-		}
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -130,8 +100,7 @@ public class IndexController {
 				authorities.add(new SimpleGrantedAuthority(role));
 			}
 		}
-		SecurityContextHolder.getContext().setAuthentication(
-				new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, authorities));
+		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, authorities));
 
 	}
 
