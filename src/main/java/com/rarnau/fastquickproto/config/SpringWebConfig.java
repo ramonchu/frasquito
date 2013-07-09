@@ -25,6 +25,7 @@ import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -37,10 +38,11 @@ import com.rarnau.fastquickproto.social.MongoConnectionConverter;
 import com.rarnau.fastquickproto.social.MongoConnectionService;
 import com.rarnau.fastquickproto.social.MongoSignInAdapter;
 import com.rarnau.fastquickproto.social.MongoUsersConnectionRepository;
+import com.rarnau.fastquickproto.web.controller.WebExceptionHandler;
 
 /**
  * @author Ramón Arnau Gómez, 2013
- *
+ * 
  */
 @Configuration
 @EnableWebMvc
@@ -48,8 +50,8 @@ import com.rarnau.fastquickproto.social.MongoUsersConnectionRepository;
 @ComponentScan("com.rarnau.fastquickproto.web")
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
-//	@Inject
-//	private Environment environment;
+	// @Inject
+	// private Environment environment;
 
 	@Inject
 	private MongoTemplate mongoTemplate;
@@ -104,8 +106,10 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 		// String twKey = environment.getProperty("twitter.consumerKey");
 		// String twSecret = environment.getProperty("twitter.consumerSecret");
 		//
-		// registry.addConnectionFactory(new FacebookConnectionFactory(fbCliId, fbSecret));
-		// registry.addConnectionFactory(new TwitterConnectionFactory(twKey, twSecret));
+		// registry.addConnectionFactory(new FacebookConnectionFactory(fbCliId,
+		// fbSecret));
+		// registry.addConnectionFactory(new TwitterConnectionFactory(twKey,
+		// twSecret));
 
 		return registry;
 	}
@@ -136,7 +140,8 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	/**
-	 * http://static.springsource.org/spring-social/docs/1.0.x/reference/html/connecting.html
+	 * http://static.springsource.org/spring-social/docs/1.0.x/reference/html/
+	 * connecting.html
 	 */
 	@Bean
 	public ConnectController connectController() {
@@ -150,9 +155,13 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public ProviderSignInController providerSignInController(UsuarioService personaService) {
-		ProviderSignInController controller = new ProviderSignInController(connectionFactoryLocator(),
-				usersConnectionRepository(), mongoSignInAdapter(personaService));
+		ProviderSignInController controller = new ProviderSignInController(connectionFactoryLocator(), usersConnectionRepository(),
+				mongoSignInAdapter(personaService));
 		return controller;
 	}
 
+	@Bean
+	HandlerExceptionResolver exceptionResolver() {
+		return new WebExceptionHandler();
+	}
 }

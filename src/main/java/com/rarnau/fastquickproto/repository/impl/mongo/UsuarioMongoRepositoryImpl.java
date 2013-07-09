@@ -45,4 +45,14 @@ public class UsuarioMongoRepositoryImpl implements UsuarioRepository {
 		return null;
 	}
 
+	@Override
+	public Usuario getUsuarioByEmail(String email) {
+		Query query = Query.query(Criteria.where("email").is(email));
+		List<Usuario> usuarios = mongoTemplate.find(query, Usuario.class);
+		if (usuarios.size() > 0) {
+			return usuarios.get(0);
+		}
+		return null;
+	}
+
 }

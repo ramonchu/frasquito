@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import com.rarnau.fastquickproto.common.Messages;
+
 /**
  * @author Ramón Arnau Gómez, 2013
  * 

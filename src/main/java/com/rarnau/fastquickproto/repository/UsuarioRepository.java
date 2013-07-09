@@ -7,7 +7,7 @@ import com.rarnau.fastquickproto.model.Usuario;
 
 /**
  * @author Ramón Arnau Gómez, 2013
- *
+ * 
  */
 public interface UsuarioRepository {
 
@@ -26,5 +26,7 @@ public interface UsuarioRepository {
 	 * @return
 	 */
 	Usuario getUsuarioById(String userId);
+
+	Usuario getUsuarioByEmail(String email);
 
 }

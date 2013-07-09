@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
+import com.rarnau.fastquickproto.common.exception.DuplicateUserException;
 import com.rarnau.fastquickproto.model.Usuario;
 import com.rarnau.fastquickproto.service.UsuarioService;
 
@@ -37,7 +38,7 @@ import com.rarnau.fastquickproto.service.UsuarioService;
 public class UserController extends WebController {
 
 	@Autowired
-	private UsuarioService personaService;
+	private UsuarioService usuarioService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -57,14 +58,14 @@ public class UserController extends WebController {
 	}
 
 	@RequestMapping("/checkAdminUser")
-	public String checkAdminUser(Model model) {
-		if (personaService.getNumUsuarios() == 0) {
+	public String checkAdminUser(Model model) throws DuplicateUserException {
+		if (usuarioService.getNumUsuarios() == 0) {
 			Usuario usuario = new Usuario();
 			usuario.setPassword(DigestUtils.md5Hex("entrar"));
 			usuario.setUsername("ramonchu");
 			usuario.setEmail("ramon.arnau@gmail.com");
 			usuario.setRoles(Arrays.asList("admin", "user"));
-			personaService.saveUsuario(usuario);
+			usuarioService.saveUsuario(usuario);
 		}
 		return "redirect:/";
 	}
@@ -79,11 +80,11 @@ public class UserController extends WebController {
 			form = new SignupForm();
 		}
 		model.addAttribute("signupForm", form);
-		return "signup"; 
+		return "signup";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(@Valid SignupForm form, BindingResult formBinding, WebRequest request, Model model) {
+	public String signup(@Valid SignupForm form, BindingResult formBinding, WebRequest request, Model model) throws DuplicateUserException {
 		if (formBinding.hasErrors()) {
 			model.addAttribute("signupForm", form);
 			return "signup";
@@ -115,13 +116,15 @@ public class UserController extends WebController {
 	 * @param form
 	 * @param formBinding
 	 * @return
+	 * @throws DuplicateUserException
 	 */
-	private Usuario createUsuario(SignupForm form, BindingResult formBinding) {
+	private Usuario createUsuario(SignupForm form, BindingResult formBinding) throws DuplicateUserException {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(form.getEmail());
 		usuario.setUsername(form.getUsername());
 		usuario.setRoles(Arrays.asList("user"));
-		personaService.saveUsuario(usuario);
+		usuario.setPassword(DigestUtils.md5Hex(form.getPassword()));
+		usuarioService.saveUsuario(usuario);
 		return usuario;
 	}
 

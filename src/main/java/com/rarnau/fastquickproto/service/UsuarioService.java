@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rarnau.fastquickproto.common.exception.DuplicateUserException;
 import com.rarnau.fastquickproto.model.Usuario;
 import com.rarnau.fastquickproto.repository.UsuarioRepository;
 
@@ -34,8 +35,13 @@ public class UsuarioService {
 
 	/**
 	 * @param usuario
+	 * @throws DuplicateUserException 
 	 */
-	public void saveUsuario(Usuario usuario) {
+	public void saveUsuario(Usuario usuario) throws DuplicateUserException {
+		if (null != usuarioRepository.getUsuarioById(usuario.getUsername()) || null != usuarioRepository.getUsuarioByEmail(usuario.getEmail())) {
+			throw new DuplicateUserException();
+		}
+
 		usuarioRepository.save(usuario);
 	}
 
